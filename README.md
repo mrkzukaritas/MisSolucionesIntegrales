@@ -36,6 +36,23 @@
 - **Recomendaciones de productos** por parte de los odontólogos
 - **Comentarios** para mejorar la oferta de la empresa
 
+### 📋 Requisitos del sistema
+- **Python:** 3.8 o superior
+- **Django:** 4.0 o superior
+- **Base de datos:** SQLite (desarrollo), PostgreSQL (producción)
+- **Espacio disco:** mínimo 100MB
+  
+### 🚀 Guía de Instalación y Configuración
+
+**1. Clonar el repositorio**
+- git clone https://github.com/mrkzukaritas/MisSolucionesIntegrales.git
+- cd MisSolucionesIntegrales
+**2. Instalar dependencias**
+- pip install -r requirements.txt
+**3. Configurar base de datos**
+- bash
+- python manage.py migrate
+
 ## 🚀 Tecnologías Utilizadas
 
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
