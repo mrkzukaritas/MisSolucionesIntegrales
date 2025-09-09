@@ -47,10 +47,11 @@
 **1. Clonar el repositorio**
 - git clone https://github.com/mrkzukaritas/MisSolucionesIntegrales.git
 - cd MisSolucionesIntegrales
+
 **2. Instalar dependencias**
 - pip install -r requirements.txt
+
 **3. Configurar base de datos**
-- bash
 - python manage.py migrate
 
 ## 🚀 Tecnologías Utilizadas
