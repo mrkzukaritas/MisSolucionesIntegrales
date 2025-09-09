@@ -1,45 +1,43 @@
-🦷 Mis Soluciones Integrales - Plataforma de Distribución Odontológica
-https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green
-https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue
-https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white
+# 🦷 Mis Soluciones Integrales - Plataforma de Distribución Odontológica
 
-📋 Descripción del Proyecto
-Mis Soluciones Integrales es una empresa dedicada a la distribución de materiales odontológicos que está implementando una plataforma web moderna para optimizar su proceso comercial. Este sistema de ventas en línea está específicamente diseñado para odontólogos, ofreciendo una experiencia intuitiva y eficiente adaptada a sus necesidades profesionales.
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 
-✨ Características Principales
-🛒 Catálogo Digital Avanzado
-Inventario en tiempo real con disponibilidad actualizada
+## 📋 Descripción del Proyecto
 
-Búsqueda inteligente por categorías odontológicas y especialidades
+**Mis Soluciones Integrales** es una empresa dedicada a la distribución de materiales odontológicos que está implementando una plataforma web moderna para optimizar su proceso comercial. Este sistema de ventas en línea está específicamente diseñado para odontólogos, ofreciendo una experiencia intuitiva y eficiente adaptada a sus necesidades profesionales.
 
-Información detallada de productos: precios, descripciones, imágenes y especificaciones técnicas
+## ✨ Características Principales
 
-Filtros avanzados para encontrar rápidamente los materiales necesarios
+### 🛒 Catálogo Digital Avanzado
+- **Inventario en tiempo real** con disponibilidad actualizada
+- **Búsqueda inteligente** por categorías odontológicas y especialidades
+- **Información detallada** de productos: precios, descripciones, imágenes y especificaciones técnicas
+- **Filtros avanzados** para encontrar rápidamente los materiales necesarios
 
-🔐 Sistema de Acceso Personalizado
-Login seguro para odontólogos (clientes) y administradores
+### 🔐 Sistema de Acceso Personalizado
+- **Login seguro** para odontólogos (clientes) y administradores
+- **Panel de administración** para gestión completa de productos
+- **Permisos diferenciados** según el tipo de usuario
 
-Panel de administración para gestión completa de productos
+### 🎓 Módulo de Capacitaciones
+- **Contenidos educativos** sobre el uso correcto de productos
+- **Material formativo** para profesionales odontológicos
+- **Recursos de aprendizaje** continuo
 
-Permisos diferenciados según el tipo de usuario
+### 🛍️ Experiencia de Compra Optimizada
+- **Carrito de compras** intuitivo
+- **Proceso de checkout** simplificado
+- **Gestión de pedidos** en tiempo real
 
-🎓 Módulo de Capacitaciones
-Contenidos educativos sobre el uso correcto de productos
+### 💬 Canal de Comunicación Directa
+- **Sistema de sugerencias** para recibir feedback de usuarios
+- **Recomendaciones de productos** por parte de los odontólogos
+- **Comentarios** para mejorar la oferta de la empresa
 
-Material formativo para profesionales odontológicos
+## 🚀 Tecnologías Utilizadas
 
-Recursos de aprendizaje continuo
-
-🛍️ Experiencia de Compra Optimizada
-Carrito de compras intuitivo
-
-Proceso de checkout simplificado
-
-Gestión de pedidos en tiempo real
-
-💬 Canal de Comunicación Directa
-Sistema de sugerencias para recibir feedback de usuarios
-
-Recomendaciones de productos por parte de los odontólogos
-
-Comentarios para mejorar la oferta de la empresa
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
