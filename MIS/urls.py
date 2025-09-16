@@ -21,6 +21,6 @@ from inicio import views as inicio_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('catalogo/', catalogo_views.index, name='catalogo_index'),
-    path('', inicio_views.home, name='home'),
+    path('', inicio_views.singup ,name='home'),
+    path('singup/', inicio_views.home,name='singup'),
 ]
