@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio_views.singup ,name='home'),
     path('singup/', inicio_views.home,name='singup'),
+    path('catalogo/', catalogo_views.index),
 ]
