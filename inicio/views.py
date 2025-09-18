@@ -8,7 +8,7 @@ def singup(request):
     if request.method =='GET':
         print("llego")
     else:
-        print("se registro un usuario")
+        print("se registrojnasfjasnfas un usuario")
         print(request.POST)
     return render(request, 'singup.html',{
         'form': UserCreationForm()
