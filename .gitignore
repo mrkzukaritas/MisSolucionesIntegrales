@@ -3,3 +3,4 @@ catalogo/__pycache__/
 MIS/__pycache__/
 migrations
 .venv/
+.env
