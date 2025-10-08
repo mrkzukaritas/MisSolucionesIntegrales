@@ -16,12 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from catalogo import views as catalogo_views
-from inicio import views as inicio_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', inicio_views.singup ,name='home'),
-    path('singup/', inicio_views.home,name='singup'),
-    path('catalogo/', catalogo_views.index),
 ]
