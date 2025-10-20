@@ -1,8 +1,29 @@
 {% extends "base.html" %}
-{% load static %}
 {% block body %}
-    <img src="{{ user_infor.picture }}" alt="User Picture" width="100" height="100">
+<div style="max-width: 500px; margin: 30px auto;">
+    <h2>Mi perfil</h2>
+    <p><strong>Usuario:</strong> {{ cliente.user.username }}</p>
+    <p><strong>Email:</strong> {{ cliente.user.email }}</p>
 
-    {{user_infor}}
-<h2>Esta es la página de perfil</h2>
-{% endblock body %}
+    {% if datos_completos %}
+        <!-- Mostrar solo los datos -->
+        <p><strong>Cédula:</strong> {{ cliente.cedula }}</p>
+        <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+        <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+
+        <!-- Botón para editar -->
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="editar" class="btn btn-secondary">Editar datos</button>
+        </form>
+    {% else %}
+        <!-- Formulario para llenar o editar -->
+        <h4>{% if cliente.cedula %}Editar tus datos{% else %}Completa tus datos{% endif %}</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" name="guardar" class="btn btn-primary">Guardar</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

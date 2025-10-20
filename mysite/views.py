@@ -1,30 +1,44 @@
 import json
 from django.shortcuts import render
 from django.contrib.auth import logout as auth_logout
-from django.http import HttpResponseRedirect
 from decouple import config
 from django.shortcuts import redirect
-from django.conf import settings
+from .models import Cliente
+from .forms import ClienteForm
 from urllib.parse import urlencode
+from social_django.models import UserSocialAuth
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
 def perfil(request):
-    user = request.user
+    cliente, created = Cliente.objects.get_or_create(user=request.user)
 
-    auth0_user =  user.social_auth.get(provider='auth0')
-    user_info = {
-        'user_id': auth0_user.uid,
-        'name': auth0_user.extra_data.get('name', user.get_full_name() or user.username),
-        'picture': auth0_user.extra_data.get('picture'),
-        'email': auth0_user.extra_data.get('email', user.email),
-    }
+    # Si todos los datos ya existen y no viene un POST, mostrar solo la info
+    datos_completos = all([
+        cliente.cedula,
+        cliente.direccion,
+        cliente.telefono
+    ])
+    if request.method == 'POST' and 'editar' in request.POST:
+        return render(request, 'perfil.html', {
+            'cliente': cliente,
+            'form': ClienteForm(instance=cliente),
+            'datos_completos': False,  # muestra el formulario
+        })
+    if request.method == 'POST':
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')  # recarga la página en modo "solo lectura"
+    else:
+        form = ClienteForm(instance=cliente)
 
-    contex={'user_infor': json.dumps(user_info, indent=4),
-            'auth0_user':auth0_user
-            }
-    return render(request, 'perfil.html',contex)
+    return render(request, 'perfil.html', {
+        'cliente': cliente,
+        'form': form,
+        'datos_completos': datos_completos,
+    })
 
 def logout(request):
     auth_logout(request)

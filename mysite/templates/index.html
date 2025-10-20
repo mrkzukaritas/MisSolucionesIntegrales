@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block body %}
-<h2>Esta es la página de inicio</h2>
+    <!-- INICIO -->
+    <section id="inicio" class="seccion activa text-center py-5">
+    <div class="p-5 bg-light rounded shadow-sm">
+        <h2 class="text-primary fw-bold mb-3">Bienvenido a Mis Soluciones Integrales</h2>
+        <p class="lead text-secondary">Distribuimos materiales odontológicos de alta calidad, con atención cercana y confiable.</p>
+        <button class="btn btn-primary mt-3" onclick="mostrar('catalogo')">Ver catálogo</button>
+    </div>
+    </section>
 {% endblock body %}
