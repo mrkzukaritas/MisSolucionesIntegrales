@@ -1,32 +1,40 @@
 from django.db import models
-from django.contrib.auth.models import User #usuario autenticado
-
-# Create your models here.
-class Producto(models.Model):
-    nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.IntegerField()
-
-    def vender(self, cantidad):
-        if cantidad > self.stock:
-            raise ValueError("No hay suficiente stock disponible.")
-        self.stock -= cantidad
-        self.save()
-    
-    def comprar(self, cantidad):
-        self.stock += cantidad
-        self.save()
-    def __str__(self):
-        return self.nombre
 from django.contrib.auth.models import User
+from django.core.validators import MinLengthValidator
 
 class Cliente(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cedula = models.CharField(max_length=15, unique=True)
-    direccion = models.CharField(max_length=255, blank=True, null=True)
-    telefono = models.CharField(max_length=20, blank=True, null=True)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
+    # Roles disponibles - SOLO ADMIN Y CLIENTE
+    ROLES = (
+        ('cliente', 'Cliente Normal'),
+        ('admin', 'Administrador'),
+    )
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Usuario")
+    cedula = models.CharField(
+        max_length=20, 
+        blank=True, 
+        null=True, 
+        verbose_name="Cédula",
+        validators=[MinLengthValidator(6)]
+    )
+    direccion = models.TextField(blank=True, null=True, verbose_name="Dirección")
+    telefono = models.CharField(max_length=20, blank=True, null=True, verbose_name="Teléfono")
+    rol = models.CharField(max_length=20, choices=ROLES, default='cliente', verbose_name="Rol")
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Cliente"
+        verbose_name_plural = "Clientes"
 
     def __str__(self):
-        return f"{self.user.username} - {self.cedula}"
+        return f"{self.user.get_full_name()} - {self.user.email}"
+
+    def datos_completos(self):
+        return all([self.cedula, self.direccion, self.telefono])
+    
+    def es_administrador(self):
+        return self.rol == 'admin'
+    
+    def es_cliente_normal(self):
+        return self.rol == 'cliente'

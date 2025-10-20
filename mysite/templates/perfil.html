@@ -1,29 +1,93 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block body %}
-<div style="max-width: 500px; margin: 30px auto;">
-    <h2>Mi perfil</h2>
-    <p><strong>Usuario:</strong> {{ cliente.user.username }}</p>
-    <p><strong>Email:</strong> {{ cliente.user.email }}</p>
+<p>lorem ipsum</p>
+    <div class="info">
+        <h2>Perfil de {{ user.first_name }} {{ user.last_name }}</h2>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Usuario:</strong> {{ user.username }}</p>
+    </div>
 
-    {% if datos_completos %}
-        <!-- Mostrar solo los datos -->
+    <!-- Si los datos están COMPLETOS -->
+    {% if datos_completos and not request.POST %}
+    <div class="info datos-completos">
+        <h2>✅ Información Personal Completa</h2>
         <p><strong>Cédula:</strong> {{ cliente.cedula }}</p>
-        <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
         <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+        <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+        
+        <form method="POST" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" name="editar" class="btn btn-editar">✏️ Editar Perfil</button>
+        </form>
+    </div>
 
-        <!-- Botón para editar -->
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" name="editar" class="btn btn-secondary">Editar datos</button>
-        </form>
+    <!-- Si los datos están INCOMPLETOS o está en modo edición -->
     {% else %}
-        <!-- Formulario para llenar o editar -->
-        <h4>{% if cliente.cedula %}Editar tus datos{% else %}Completa tus datos{% endif %}</h4>
-        <form method="post">
+    <div class="info datos-incompletos">
+        <h2>
+            {% if datos_completos %}
+                ✏️ Editando Perfil
+            {% else %}
+                📝 Completa Tu Información Personal
+            {% endif %}
+        </h2>
+
+        <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" name="guardar" class="btn btn-primary">Guardar</button>
+
+            <div class="form-group">
+                <label for="id_cedula">Cédula *:</label>
+                {{ form.cedula }}
+                {% if form.cedula.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">
+                        {% for error in form.cedula.errors %}
+                            ❌ {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    Mínimo 6 caracteres, solo números y guiones
+                </small>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_telefono">Teléfono *:</label>
+                {{ form.telefono }}
+                {% if form.telefono.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">
+                        {% for error in form.telefono.errors %}
+                            ❌ {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    Ejemplo: +57 123 456 7890
+                </small>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_direccion">Dirección *:</label>
+                {{ form.direccion }}
+                {% if form.direccion.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">
+                        {% for error in form.direccion.errors %}
+                            ❌ {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    Dirección completa de residencia
+                </small>
+            </div>
+            
+            <button type="submit" class="btn btn-guardar">💾 Guardar Información</button>
+            
+            {% if datos_completos %}
+                <a href="{% url 'perfil' %}" class="btn btn-cancelar">❌ Cancelar</a>
+            {% endif %}
         </form>
+    </div>
     {% endif %}
-</div>
-{% endblock %}
+{% endblock body %}

@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
-{% block body %}
-    <!-- INICIO -->
-    <section id="inicio" class="seccion activa text-center py-5">
-    <div class="p-5 bg-light rounded shadow-sm">
-        <h2 class="text-primary fw-bold mb-3">Bienvenido a Mis Soluciones Integrales</h2>
-        <p class="lead text-secondary">Distribuimos materiales odontológicos de alta calidad, con atención cercana y confiable.</p>
-        <button class="btn btn-primary mt-3" onclick="mostrar('catalogo')">Ver catálogo</button>
-    </div>
-    </section>
-{% endblock body %}
+
+    {% block body %}
+    <!-- aca es lo de la pagina normal  -->
+
+<div class="public-content">
+    <h2>📞 Contáctanos</h2>
+    <p>Estamos aquí para ayudarte. No dudes en contactarnos para más información.</p>
+    <p><strong>Email:</strong> info@misitio.com</p>
+    <p><strong>Teléfono:</strong> +57 123 456 7890</p>
+</div>
+
+    {% endblock body %}

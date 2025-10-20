@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container mt-4">
+
+    
+    <!-- Estadísticas -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Usuarios</h5>
+                    <h2>{{ total_usuarios }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-danger">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Administradores</h5>
+                    <h2>{{ total_administradores }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Clientes</h5>
+                    <h2>{{ total_clientes }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lista de usuarios -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3 class="card-title mb-0">📋 Lista de Usuarios Registrados</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Fecha Registro</th>
+                            <th>Perfil Completo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in clientes %}
+                        <tr>
+                            <td>{{ cliente.user.get_full_name }}</td>
+                            <td>{{ cliente.user.email }}</td>
+                            <td>
+                                <span class="badge {% if cliente.rol == 'admin' %}bg-danger{% else %}bg-secondary{% endif %}">
+                                    {{ cliente.get_rol_display }}
+                                </span>
+                            </td>
+                            <td>{{ cliente.fecha_creacion|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if cliente.datos_completos %}
+                                    <span class="badge bg-success">✅ Completo</span>
+                                {% else %}
+                                    <span class="badge bg-warning">⚠️ Incompleto</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

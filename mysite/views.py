@@ -1,36 +1,32 @@
-import json
-from django.shortcuts import render
+
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
-from decouple import config
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 from .models import Cliente
 from .forms import ClienteForm
-from urllib.parse import urlencode
-from social_django.models import UserSocialAuth
-# Create your views here.
+
 def index(request):
     return render(request, 'index.html')
 
+@login_required
 def perfil(request):
-    cliente, created = Cliente.objects.get_or_create(user=request.user)
-
-    # Si todos los datos ya existen y no viene un POST, mostrar solo la info
-    datos_completos = all([
-        cliente.cedula,
-        cliente.direccion,
-        cliente.telefono
-    ])
+    cliente = Cliente.objects.get(user=request.user)
+    datos_completos = cliente.datos_completos()
+    
     if request.method == 'POST' and 'editar' in request.POST:
+        form = ClienteForm(instance=cliente)
         return render(request, 'perfil.html', {
             'cliente': cliente,
-            'form': ClienteForm(instance=cliente),
-            'datos_completos': False,  # muestra el formulario
+            'form': form,
+            'datos_completos': False,
+            'modo_edicion': True
         })
+    
     if request.method == 'POST':
         form = ClienteForm(request.POST, instance=cliente)
         if form.is_valid():
             form.save()
-            return redirect('perfil')  # recarga la página en modo "solo lectura"
+            return redirect('perfil')
     else:
         form = ClienteForm(instance=cliente)
 
@@ -38,18 +34,24 @@ def perfil(request):
         'cliente': cliente,
         'form': form,
         'datos_completos': datos_completos,
+        'modo_edicion': not datos_completos
     })
 
+# VISTA SOLO PARA ADMINISTRADORES
+def panel_administrador(request):
+    """Panel exclusivo para administradores"""
+    clientes = Cliente.objects.all()
+    total_administradores = clientes.filter(rol='admin').count()
+    total_clientes = clientes.filter(rol='cliente').count()
+    
+    return render(request, 'admin_panel.html', {
+        'clientes': clientes,
+        'total_usuarios': clientes.count(),
+        'total_administradores': total_administradores,
+        'total_clientes': total_clientes,
+    })
 
 
 def logout(request):
     auth_logout(request)
-    domain = config('APP_DOMAIN')
-    client_id = config('APP_CLIENT_ID')
-    return_to = request.build_absolute_uri('/')  # genera http://localhost:8000/
-    params = urlencode({
-        'client_id': client_id,
-        'returnTo': return_to,
-    })
-    logout_url = f"https://{domain}/v2/logout?{params}"
-    return redirect(logout_url)
+    return redirect('/')
