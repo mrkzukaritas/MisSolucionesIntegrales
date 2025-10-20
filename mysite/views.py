@@ -40,6 +40,8 @@ def perfil(request):
         'datos_completos': datos_completos,
     })
 
+
+
 def logout(request):
     auth_logout(request)
     domain = config('APP_DOMAIN')
@@ -51,4 +53,3 @@ def logout(request):
     })
     logout_url = f"https://{domain}/v2/logout?{params}"
     return redirect(logout_url)
-
