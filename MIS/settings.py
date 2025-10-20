@@ -108,10 +108,10 @@ SOCIAL_AUTH_PIPELINE = (
     'mysite.pipelines.save_profile',  # Tu pipeline personalizado AL FINAL
 )
 
-# Database
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('ENGINE'),
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('NAME'),
         'USER': os.environ.get('USER'),
         'PASSWORD': os.environ.get('PASSWORD'),
@@ -119,7 +119,6 @@ DATABASES = {
         'PORT': os.environ.get('PORT'),
     }
 }
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -189,3 +188,4 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+
