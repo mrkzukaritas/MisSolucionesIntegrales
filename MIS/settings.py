@@ -13,12 +13,19 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-clave-temporal-para-desarrollo')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'ASGASGALIJSL5415')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'RENDER' not in os.environ 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# Hosts permitidos en producción
+ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# También agrega localhost para desarrollo
+ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
 
 # Application definition
 INSTALLED_APPS = [
@@ -29,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',  # Social Auth para Google
-    'mysite',  # Tu aplicación
+    'mysite', # Tu aplicación
+    'whitenoise.runserver_nostatic', 
 ]
 
 # Google OAuth Configuration
@@ -138,7 +146,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+# Whitenoise para servir archivos estáticos
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -174,3 +183,9 @@ if DEBUG:
             },
         },
     }
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
