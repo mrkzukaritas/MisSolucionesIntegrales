@@ -52,6 +52,7 @@ SOCIAL_AUTH_TRAILING_SLASH = False  # Remove trailing slash from routes
 SOCIAL_AUTH_AUTH0_DOMAIN = config('APP_DOMAIN')
 SOCIAL_AUTH_AUTH0_KEY = config('APP_CLIENT_ID')
 SOCIAL_AUTH_AUTH0_SECRET = config('APP_CLIENT_SECRET')
+SOCIAL_AUTH_JWT_LEEWAY = 10 
 SOCIAL_AUTH_AUTH0_SCOPE = [
     'openid',
     'profile',
@@ -145,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Bogota'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
