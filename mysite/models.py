@@ -15,19 +15,21 @@ class Producto(models.Model):
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
+    #imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, related_name='productos')
 
     def vender(self, cantidad):
         if cantidad > self.stock:
             raise ValueError("No hay suficiente stock disponible.")
         self.stock -= cantidad
         self.save()
-    
+
     def comprar(self, cantidad):
         self.stock += cantidad
         self.save()
+
     def __str__(self):
-        return self.nombre
-    
+        return f"{self.nombre} ({self.categoria})" if self.categoria else self.nombre
 
 
 class Cliente(models.Model):
