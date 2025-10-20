@@ -16,7 +16,7 @@ body { background:#f8f9fb; color:#333; }
   background-color: var(--azul-claro);
   border: none;
 }
-.btn-primary:hover { background-color: #3391ff; }
+.btn-primary:hover { background-color: #ff3355; }
 
 .seccion { display: none; opacity: 0; transition: opacity 0.4s ease; }
 .seccion.activa { display: block; opacity: 1; }
@@ -107,7 +107,7 @@ a:hover, a:focus {
     align-items: center;
 }
 .navbar.scrolled {
-    background-color: #c2d0e4;
+    background-color: #e4c2c7;
     box-shadow: 0 4px 16px rgba(3, 58, 113, 0.16);
     transition: background-color 0.3s, box-shadow 0.3s;
 }
