@@ -1,0 +1,26 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MIS</title>
+
+<body>
+
+    <h1>Welcome to MIS</h1>
+    <header>
+        {%if user.is_authenticad %}
+        <!--Si el usuario está autenticado y un enlace para cerrar sesión-->
+            <a href="">Cerrar sesión</a>
+            <a href="">Mi perfil</a>
+            <a href="">Mi carrito</a>
+            <a href="">Catalogo</a>
+
+        {% else %}
+            <a href="">Iniciar Sesión</a>
+        {% endif %}
+
+</body>
+</html>
