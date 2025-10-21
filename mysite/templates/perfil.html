@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-<p>lorem ipsum</p>
+
     <div class="info">
         <h2>Perfil de {{ user.first_name }} {{ user.last_name }}</h2>
         <p><strong>Email:</strong> {{ user.email }}</p>
@@ -28,9 +28,9 @@
     <div class="info datos-incompletos">
         <h2>
             {% if datos_completos %}
-                ✏️ Editando Perfil
+                Editando Perfil
             {% else %}
-                📝 Completa Tu Información Personal
+                Completa Tu Información Personal
             {% endif %}
         </h2>
 
@@ -43,7 +43,7 @@
                 {% if form.cedula.errors %}
                     <div style="color: red; font-size: 0.9em; margin-top: 5px;">
                         {% for error in form.cedula.errors %}
-                            ❌ {{ error }}
+                            {{ error }}
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -58,7 +58,7 @@
                 {% if form.telefono.errors %}
                     <div style="color: red; font-size: 0.9em; margin-top: 5px;">
                         {% for error in form.telefono.errors %}
-                            ❌ {{ error }}
+                            {{ error }}
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -73,7 +73,7 @@
                 {% if form.direccion.errors %}
                     <div style="color: red; font-size: 0.9em; margin-top: 5px;">
                         {% for error in form.direccion.errors %}
-                            ❌ {{ error }}
+                            {{ error }}
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -82,10 +82,10 @@
                 </small>
             </div>
             
-            <button type="submit" class="btn btn-guardar">💾 Guardar Información</button>
+            <button type="submit" class="btn btn-guardar">Guardar</button>
             
             {% if datos_completos %}
-                <a href="{% url 'perfil' %}" class="btn btn-cancelar">❌ Cancelar</a>
+                <a href="{% url 'perfil' %}" class="btn btn-cancelar"> Cancelar</a>
             {% endif %}
         </form>
     </div>
