@@ -1,162 +1,36 @@
-body { background:#f8f9fb; color:#333; }
-
 :root {
   --azul-claro: #4fa8ff;
-  --azul-oscuro: #004a9f;
+  --azul-oscuro: #003366;
 }
 
-.navbar {
-  transition: all 0.3s ease;
+body {
+  background-color: #f8f9fb;
+  color: #222;
+  font-family: 'Open Sans', sans-serif;
 }
 
-.text-primary { color: var(--azul-oscuro) !important; }
-.bg-primary { background-color: var(--azul-claro) !important; }
+.navbar-brand {
+  color: var(--azul-oscuro) !important;
+}
 
 .btn-primary {
   background-color: var(--azul-claro);
   border: none;
 }
-.btn-primary:hover { background-color: #ff3355; }
-
-.seccion { display: none; opacity: 0; transition: opacity 0.4s ease; }
-.seccion.activa { display: block; opacity: 1; }
-
-.card img { height: 120px; object-fit: contain; }
-
-footer { 
-  margin-top: auto; 
-  background-color: var(--azul-oscuro); }
-
-.profile-img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
+.btn-primary:hover {
   background-color: var(--azul-oscuro);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+footer {
+  background-color: var(--azul-oscuro);
   color: white;
-  font-weight: bold;
-  cursor: pointer;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
+.card {
+  border: none;
+  border-radius: 10px;
 }
 
-main {
-  flex: 1;
-}
-
-.clickable {
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.clickable:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-}
-.img-fluid {
-  height: 180px;
-  object-fit: contain;
-}
-/* 1. Importaciones y Reset */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', 'san-serif', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background-color: #ffffff;
-    color: #111111;
-    line-height: 1.6;
-    transition: background-color 0.5s ease, color 0.5s ease;
-    padding-top: 40px; /* Ajusta según la altura real del navbar */
-}
-
-/* 2. Enlaces */
-a {
-    color: #0066cc;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-a:hover, a:focus {
-    color: #004a99;
-    outline: none;
-}
-
-/* 3. Navbar */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background-color: #f9f9f9;
-    padding: 15px 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-}
-.navbar.scrolled {
-    background-color: #e4c2c7;
-    box-shadow: 0 4px 16px rgba(3, 58, 113, 0.16);
-    transition: background-color 0.3s, box-shadow 0.3s;
-}
-.navbar-logo {
-    display: flex;
-    align-items: center;
-    margin-right: 32px;
-    height: 48px;
-}
-.navbar-logo img {
-    height: 48px;
-    width: auto;
-    display: block;
-}
-.nav-list {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    list-style: none;
-    flex: 1;
-}
-.nav-list li a {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #cc003d;
-    padding: 10px 16px;
-    border-radius: 6px;
-    position: relative;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-.nav-list li a::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: 4px;
-    width: 0;
-    height: 3px;
-    background-color: #0066cc;
-    border-radius: 3px;
-    transition: width 0.3s ease, left 0.3s ease;
-}
-.nav-list li a:hover::after,
-.nav-list li a:focus::after {
-    width: 60%;
-    left: 20%;
-}
-.nav-list li a:hover,
-.nav-list li a:focus {
-    background-color: #0066cc;
-    color: #ffffff;
-    box-shadow: 0 0 10px #004a99;
+.card input, .card button {
+  border-radius: 6px;
 }
