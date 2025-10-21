@@ -1,35 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="container mt-4">
-
-    
-    <!-- Estadísticas -->
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Total Usuarios</h5>
-                    <h2>{{ total_usuarios }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-danger">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Administradores</h5>
-                    <h2>{{ total_administradores }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-success">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Clientes</h5>
-                    <h2>{{ total_clientes }}</h2>
-                </div>
-            </div>
-        </div>
-    </div>
     
     <!-- Lista de usuarios -->
     <div class="card mt-4">
@@ -42,22 +13,18 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Rol</th>
+                            <th>Email</th>  
                             <th>Fecha Registro</th>
                             <th>Perfil Completo</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for cliente in clientes %}
+                        {% if cliente.rol == "cliente" %}
                         <tr>
                             <td>{{ cliente.user.get_full_name }}</td>
                             <td>{{ cliente.user.email }}</td>
-                            <td>
-                                <span class="badge {% if cliente.rol == 'admin' %}bg-danger{% else %}bg-secondary{% endif %}">
-                                    {{ cliente.get_rol_display }}
-                                </span>
-                            </td>
+
                             <td>{{ cliente.fecha_creacion|date:"d/m/Y" }}</td>
                             <td>
                                 {% if cliente.datos_completos %}
@@ -67,6 +34,7 @@
                                 {% endif %}
                             </td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
@@ -76,7 +44,5 @@
     <button onclick="window.location.href='{% url 'todas_sugerencias' %}'" class="btn btn-info mt-4">
         <i class="fas fa-lightbulb me-2"></i>Ver Sugerencias de Usuarios
     </button>
-    
-
 </div>
 {% endblock %}
