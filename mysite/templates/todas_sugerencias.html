@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="card mt-4">
+        <div class="card-header">
+            <h3 class="card-title mb-0">💡 Sugerencias de Usuarios</h3>
+
+        <div class="card-body">
+            {% if sugerencias %}
+            <div class="list-group">
+                {% for sugerencia in sugerencias %}
+                <div class="list-group-item mb-3">
+                    <h5 class="mb-1">{{ sugerencia.cliente.user.get_full_name }} <small class="text-muted">({{ sugerencia.fecha_creacion|date:"d/m/Y H:i" }})</small></h5>
+                    <p class="mb-1">{{ sugerencia.contenido }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No hay sugerencias recibidas.</p>
+            {% endif %}
+            </div>
+            </div>
+    </div>
+</div>
+{% endblock %}

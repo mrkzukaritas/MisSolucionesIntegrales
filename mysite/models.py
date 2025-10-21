@@ -38,3 +38,16 @@ class Cliente(models.Model):
     
     def es_cliente_normal(self):
         return self.rol == 'cliente'
+    
+
+class Sugerencia(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
+    contenido = models.TextField(verbose_name="Contenido de la Sugerencia")
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Sugerencia"
+        verbose_name_plural = "Sugerencias"
+
+    def __str__(self):
+        return f"Sugerencia de {self.cliente.user.get_full_name()} - {self.fecha_creacion.strftime('%Y-%m-%d %H:%M')}"

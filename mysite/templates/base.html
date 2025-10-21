@@ -58,6 +58,7 @@
                             <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}" aria-label="Mi perfil">Mi perfil</a></li>
                             <li class="nav-item"><a class="nav-link" href="" aria-label="Mi carrito">Mi carrito</a></li>
                             <li class="nav-item"><a class="nav-link" href="" aria-label="Catalogo">Catalogo</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'hacer_sugerencia' %}" aria-label="Sugerencias">Sugerencias</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}" aria-label="Cerrar sesión">Cerrar sesión</a></li>
                             {% if user.cliente.rol == 'admin' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'panel_administrador' %}" aria-label="Panel de Administrador">Panel de Admin</a></li>

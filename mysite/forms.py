@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cliente
+from .models import Cliente, Sugerencia
 
 class ClienteForm(forms.ModelForm):
     class Meta:
@@ -73,3 +73,23 @@ class ClienteForm(forms.ModelForm):
             self.add_error('telefono', 'Este campo es obligatorio')
 
         return cleaned_data
+    
+class SugerenciaForm(forms.ModelForm):
+    class Meta:
+        model = Sugerencia
+        fields = ['contenido']
+        widgets = {
+            'contenido': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'Escribe tu sugerencia aquí...'
+            }),
+        }
+        labels = {
+            'contenido': 'Sugerencia *',
+        }
+        error_messages = {
+            'contenido': {
+                'required': 'El contenido de la sugerencia es obligatorio',
+            },
+        }

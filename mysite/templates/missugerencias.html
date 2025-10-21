@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+{% for su in sugerencias%}
+<div class="card mb-3">
+    <div class="card-header">
+        <strong>Numero</strong> {{ su.id }}
+        <strong>Enviada el:</strong> {{ su.fecha_creacion|date:"d/m/Y H:i" }}
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ su.contenido }}</p>
+    </div>
+</div>
+{% endfor %}
+{% endblock body %}
