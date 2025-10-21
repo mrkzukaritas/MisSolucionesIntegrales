@@ -1,9 +1,10 @@
-
+import os
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from .models import Cliente, Sugerencia
 from .forms import ClienteForm, SugerenciaForm
+from django.core.mail import send_mail
 
 def index(request):
     return render(request, 'index.html')
@@ -59,6 +60,8 @@ def ver_sugerencias(request):
     return render(request, 'missugerencias.html', {
         'sugerencias': sugerencias,
     })
+from django.core.mail import send_mail
+import os
 
 def hacer_sugerencia(request):
     """Vista para que los clientes envíen sugerencias"""
@@ -66,10 +69,30 @@ def hacer_sugerencia(request):
         form = SugerenciaForm(request.POST)
         if form.is_valid():
             sugerencia = form.save(commit=False)
-            sugerencia.cliente = request.user.cliente  # Asignar el cliente automáticamente
+            cliente = request.user.cliente  # ← CORREGIDO: usar 'cliente' no 'user'
+            sugerencia.cliente = cliente
             sugerencia.save()
             
-            # Mensaje de éxito (puedes usar Django messages después)
+            # Enviar correo de confirmación
+            send_mail(
+                    '✅ Sugerencia recibida - Mis Soluciones Integrales',
+                    f'''Hola {cliente.user.first_name},
+
+Gracias por enviar tu sugerencia. Hemos recibido el siguiente contenido:
+
+"{sugerencia.contenido}"
+
+La revisaremos pronto y te mantendremos informado sobre su estado.
+
+📅 Fecha: {sugerencia.fecha_creacion.strftime("%d/%m/%Y %H:%M")}
+
+Saludos,
+Equipo de Mis Soluciones Integrales''',
+                    os.environ.get('EMAIL_HOST_USER'),
+                    [cliente.user.email],
+                    fail_silently=False,
+                )
+            # Mensaje de éxito
             return render(request, 'sugerencias.html', {
                 'form': SugerenciaForm(),
                 'mensaje_exito': True
