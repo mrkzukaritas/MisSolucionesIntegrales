@@ -45,6 +45,17 @@
                                 <i class="fas fa-arrow-left me-2"></i>Volver al Perfil
                             </a>
                         </div>
+                        {% if mensaje_exito %}
+    <div class="alert alert-success">
+        ✅ ¡Sugerencia enviada correctamente!
+    </div>
+    {% if not email_enviado %}
+    <div class="alert alert-warning">
+        ⚠️ La sugerencia se guardó, pero no se pudo enviar el email de confirmación. 
+        Te contactaremos pronto.
+    </div>
+    {% endif %}
+{% endif %}
                     </form>
                 </div>
             </div>
