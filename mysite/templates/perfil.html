@@ -47,7 +47,7 @@
                 
                 <div class="mb-3">
                     <label for="id_cedula" class="form-label fw-semibold">Cédula *</label>
-                    {{ form.cedula|add_class:"form-control shadow-sm" }}
+                    {{ form.cedula }}
                     {% if form.cedula.errors %}
                         <div class="text-danger small mt-1">
                             {% for error in form.cedula.errors %}
@@ -60,7 +60,7 @@
 
                 <div class="mb-3">
                     <label for="id_telefono" class="form-label fw-semibold">Teléfono *</label>
-                    {{ form.telefono|add_class:"form-control shadow-sm" }}
+                    {{ form.telefono }}
                     {% if form.telefono.errors %}
                         <div class="text-danger small mt-1">
                             {% for error in form.telefono.errors %}
@@ -73,7 +73,7 @@
 
                 <div class="mb-3">
                     <label for="id_direccion" class="form-label fw-semibold">Dirección *</label>
-                    {{ form.direccion|add_class:"form-control shadow-sm" }}
+                    {{ form.direccion }}
                     {% if form.direccion.errors %}
                         <div class="text-danger small mt-1">
                             {% for error in form.direccion.errors %}
