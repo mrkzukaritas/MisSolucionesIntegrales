@@ -1,36 +1,87 @@
 :root {
-  --azul-claro: #4fa8ff;
-  --azul-oscuro: #003366;
+    --azul-claro: #e8f1fc;
+    --azul-medio: #5b9bd5;
+    --azul-oscuro: #2b5797;
+    --gris-texto: #444;
+    --blanco: #ffffff;
 }
 
+/* Fondo y tipografía limpia */
 body {
-  background-color: #f8f9fb;
-  color: #222;
-  font-family: 'Open Sans', sans-serif;
+    background-color: var(--azul-claro);
+    color: var(--gris-texto);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 80px !important;
 }
 
-.navbar-brand {
-  color: var(--azul-oscuro) !important;
+/* Navbar elegante */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    background: var(--blanco);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-bottom: 2px solid var(--azul-medio);
+    min-height: 70px;
+    transition: all 0.3s ease;
 }
 
+.navbar-brand img {
+    height: 48px;
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
+}
+
+/* Links del navbar */
+.nav-link {
+    color: var(--azul-oscuro) !important;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    transition: color 0.2s, background-color 0.2s;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.nav-link:hover {
+    background-color: var(--azul-medio);
+    color: var(--blanco) !important;
+}
+
+.nav-item.active .nav-link {
+    background-color: var(--azul-medio);
+    color: var(--blanco) !important;
+}
+
+/* Contenido principal */
+.main-content {
+    min-height: calc(100vh - 80px);
+    padding: 40px 0;
+}
+
+/* Contenedor con toque limpio */
+.container {
+    background-color: var(--blanco);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    padding: 2rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+}
+
+/* Botones */
 .btn-primary {
-  background-color: var(--azul-claro);
-  border: none;
+    background-color: var(--azul-medio);
+    border: none;
+    transition: background-color 0.2s ease;
 }
+
 .btn-primary:hover {
-  background-color: var(--azul-oscuro);
-}
-
-footer {
-  background-color: var(--azul-oscuro);
-  color: white;
-}
-
-.card {
-  border: none;
-  border-radius: 10px;
-}
-
-.card input, .card button {
-  border-radius: 6px;
+    background-color: var(--azul-oscuro);
 }

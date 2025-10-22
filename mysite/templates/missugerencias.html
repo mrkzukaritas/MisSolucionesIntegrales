@@ -1,19 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
 {% block body %}
-{% if sugerencias %}
-    {% for su in sugerencias%}
-    <div class="card mb-3">
-        <div class="card-header">
-            <strong>Numero</strong> {{ su.id }}
-            <strong>Enviada el:</strong> {{ su.fecha_creacion|date:"d/m/Y H:i" }}
+
+<div class="container mt-4">
+    {% if sugerencias %}
+        {% for su in sugerencias %}
+        <div class="card mb-3 border-0 shadow-sm rounded-3">
+            <div class="card-header bg-primary text-white rounded-top-3">
+                <strong>N°:</strong> {{ su.id }} 
+                <span class="ms-2"><strong>Enviada el:</strong> {{ su.fecha_creacion|date:"d/m/Y H:i" }}</span>
+            </div>
+            <div class="card-body bg-light">
+                <p class="card-text mb-0">{{ su.contenido }}</p>
+            </div>
         </div>
-        <div class="card-body">
-            <p class="card-text">{{ su.contenido }}</p>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center mt-4" role="alert">
+            No hay sugerencias enviadas todavía 💭
         </div>
-    </div>
-    {% endfor %}
-{% else %}
-    <p>No hay sugerencias enviadas.</p>
-{% endif %}
+    {% endif %}
+</div>
+
 {% endblock body %}

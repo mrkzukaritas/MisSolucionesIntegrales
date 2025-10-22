@@ -1,29 +1,27 @@
-<!-- sugerencias.html -->
 {% extends "base.html" %}
 {% block body %}
 
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <!-- Card principal -->
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="card-title mb-0">💡 Enviar Sugerencia</h4>
+            <div class="card suggestion-card">
+                <div class="card-header">
+                    <h4 class="card-title">💡 Enviar Sugerencia</h4>
                 </div>
                 <div class="card-body">
-                    <p class="text-muted mb-4">
-                        Tu opinión es muy importante para nosotros. Comparte tus ideas, comentarios o sugerencias para mejorar nuestro servicio.
+                    <p class="description">
+                        Tu opinión nos ayuda a mejorar. Comparte tus ideas o comentarios.
                     </p>
 
                     <form method="POST">
                         {% csrf_token %}
-                        
-                        <!-- Campo de sugerencia -->
+
                         <div class="mb-3">
                             <label for="{{ form.contenido.id_for_label }}" class="form-label">
-                                <strong>{{ form.contenido.label }}</strong>
+                                {{ form.contenido.label }}
                             </label>
                             {{ form.contenido }}
+
                             {% if form.contenido.errors %}
                                 <div class="alert alert-danger mt-2">
                                     {% for error in form.contenido.errors %}
@@ -32,54 +30,33 @@
                                 </div>
                             {% endif %}
                             <div class="form-text">
-                                Escribe detalladamente tu sugerencia. Mientras más específico seas, mejor podremos entender tu idea.
+                                Escribe tu sugerencia con el mayor detalle posible.
                             </div>
                         </div>
 
-                        <!-- Botones -->
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane me-2"></i>Enviar Sugerencia
+                            <button type="submit" class="btn btn-main">
+                                <i class="fas fa-paper-plane me-2"></i>Enviar
                             </button>
-                            <a href="{% url 'perfil' %}" class="btn btn-outline-secondary">
-                                <i class="fas fa-arrow-left me-2"></i>Volver al Perfil
+                            <a href="{% url 'perfil' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Volver
                             </a>
                         </div>
+
                         {% if mensaje_exito %}
-    <div class="alert alert-success">
-        ✅ ¡Sugerencia enviada correctamente!
-    </div>
-    {% if not email_enviado %}
-    <div class="alert alert-warning">
-        ⚠️ La sugerencia se guardó, pero no se pudo enviar el email de confirmación. 
-    </div>
-    {% endif %}
-{% endif %}
+                            <div class="alert alert-success mt-3">
+                                ✅ ¡Sugerencia enviada correctamente!
+                            </div>
+                            {% if not email_enviado %}
+                                <div class="alert alert-warning">
+                                    ⚠️ Se guardó la sugerencia, pero no se pudo enviar el correo.
+                                </div>
+                            {% endif %}
+                        {% endif %}
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .card {
-        border: none;
-        border-radius: 10px;
-    }
-    
-    .card-header {
-        border-radius: 10px 10px 0 0 !important;
-    }
-    
-    textarea.form-control {
-        resize: vertical;
-        min-height: 120px;
-    }
-    
-    .btn {
-        border-radius: 8px;
-    }
-</style>
-
 {% endblock %}

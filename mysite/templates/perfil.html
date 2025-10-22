@@ -2,97 +2,104 @@
 {% load static %}
 
 {% block body %}
-
-    <div class="info">
-        <h2>Perfil de {{ user.first_name }} {{ user.last_name }}</h2>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Usuario:</strong> {{ user.username }}</p>
+<div class="container mt-4">
+    <!-- Información del usuario -->
+    <div class="card shadow border-0 rounded-4 mb-4">
+        <div class="card-body">
+            <h2 class="text-primary">Perfil de {{ user.first_name }} {{ user.last_name }}</h2>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Usuario:</strong> {{ user.username }}</p>
+        </div>
     </div>
 
-    <!-- Si los datos están COMPLETOS -->
+    <!-- Datos completos -->
     {% if datos_completos and not request.POST %}
-    <div class="info datos-completos">
-        <h2>✅ Información Personal Completa</h2>
-        <p><strong>Cédula:</strong> {{ cliente.cedula }}</p>
-        <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
-        <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
-        
-        <form method="POST" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" name="editar" class="btn btn-editar">✏️ Editar Perfil</button>
-        </form>
+    <div class="card shadow-sm border-0 rounded-4 mb-4 bg-light">
+        <div class="card-body">
+            <h4 class="text-success mb-3">✅ Información Personal Completa</h4>
+            <p><strong>Cédula:</strong> {{ cliente.cedula }}</p>
+            <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+            <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+
+            <form method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" name="editar" class="btn btn-primary shadow-sm">
+                    ✏️ Editar Perfil
+                </button>
+            </form>
+        </div>
     </div>
 
-    <!-- Si los datos están INCOMPLETOS o está en modo edición -->
     {% else %}
-    <div class="info datos-incompletos">
-        <h2>
-            {% if datos_completos %}
-                Editando Perfil
-            {% else %}
-                Completa Tu Información Personal
-            {% endif %}
-        </h2>
+    <!-- Formulario de edición -->
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-body">
+            <h4 class="mb-3 text-primary">
+                {% if datos_completos %}
+                    Editando Perfil
+                {% else %}
+                    Completa Tu Información Personal
+                {% endif %}
+            </h4>
 
-        <form method="POST">
-            {% csrf_token %}
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="id_cedula" class="form-label fw-semibold">Cédula *</label>
+                    {{ form.cedula|add_class:"form-control shadow-sm" }}
+                    {% if form.cedula.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.cedula.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="form-text">Mínimo 6 caracteres, solo números y guiones.</div>
+                </div>
 
-            <div class="form-group">
-                <label for="id_cedula">Cédula *:</label>
-                {{ form.cedula }}
-                {% if form.cedula.errors %}
-                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">
-                        {% for error in form.cedula.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                <small style="color: #666; display: block; margin-top: 5px;">
-                    Mínimo 6 caracteres, solo números y guiones
-                </small>
-            </div>
-            
-            <div class="form-group">
-                <label for="id_telefono">Teléfono *:</label>
-                {{ form.telefono }}
-                {% if form.telefono.errors %}
-                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">
-                        {% for error in form.telefono.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                <small style="color: #666; display: block; margin-top: 5px;">
-                    Ejemplo: +57 123 456 7890
-                </small>
-            </div>
-            
-            <div class="form-group">
-                <label for="id_direccion">Dirección *:</label>
-                {{ form.direccion }}
-                {% if form.direccion.errors %}
-                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">
-                        {% for error in form.direccion.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                <small style="color: #666; display: block; margin-top: 5px;">
-                    Dirección completa de residencia
-                </small>
-            </div>
-            
-            <button type="submit" class="btn btn-guardar">Guardar</button>
-            
-            {% if datos_completos %}
-                <a href="{% url 'perfil' %}" class="btn btn-cancelar"> Cancelar</a>
-            {% endif %}
-        </form>
+                <div class="mb-3">
+                    <label for="id_telefono" class="form-label fw-semibold">Teléfono *</label>
+                    {{ form.telefono|add_class:"form-control shadow-sm" }}
+                    {% if form.telefono.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.telefono.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="form-text">Ejemplo: +57 123 456 7890</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_direccion" class="form-label fw-semibold">Dirección *</label>
+                    {{ form.direccion|add_class:"form-control shadow-sm" }}
+                    {% if form.direccion.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.direccion.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="form-text">Dirección completa de residencia.</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary shadow-sm">Guardar</button>
+                    {% if datos_completos %}
+                        <a href="{% url 'perfil' %}" class="btn btn-outline-secondary">Cancelar</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
     </div>
-
     {% endif %}
-        <div>
-        <p><a href="{% url 'mis_sugerencias' %}">Ver mis sugerencias enviadas</a></p>
+
+    <!-- Enlace a sugerencias -->
+    <div class="text-center mt-4">
+        <a href="{% url 'mis_sugerencias' %}" class="btn btn-info">
+            💡 Ver mis sugerencias enviadas
+        </a>
     </div>
-    </div>
+</div>
 {% endblock body %}
