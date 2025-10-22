@@ -26,9 +26,9 @@
                                 <td>{{ cliente.fecha_creacion|date:"d/m/Y" }}</td>
                                 <td>
                                     {% if cliente.datos_completos %}
-                                        <span class="badge bg-success">✅ Completo</span>
+                                        <span class="badge bg-success"> Completo</span>
                                     {% else %}
-                                        <span class="badge bg-warning text-dark">⚠️ Incompleto</span>
+                                        <span class="badge bg-warning text-dark"> Incompleto</span>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -42,7 +42,10 @@
 
       <a href="{% url 'todas_sugerencias' %}" class="btn btn-outline-primary px-4 py-2">
         Ver sugerencias
-      </a>  
+      </a> 
+    <a href="/admin/" class="btn btn-outline-primary px-4 py-2">
+        Admin Panel Django
+    </a>
 </div>
 
 {% endblock %}
