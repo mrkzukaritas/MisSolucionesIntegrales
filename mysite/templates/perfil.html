@@ -16,7 +16,7 @@
     {% if datos_completos and not request.POST %}
     <div class="card shadow-sm border-0 rounded-4 mb-4 bg-light">
         <div class="card-body">
-            <h4 class="text-success mb-3">✅ Información Personal Completa</h4>
+            <h4 class="text-success mb-3"> Información Personal Completa</h4>
             <p><strong>Cédula:</strong> {{ cliente.cedula }}</p>
             <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
             <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
@@ -24,7 +24,7 @@
             <form method="POST" class="d-inline">
                 {% csrf_token %}
                 <button type="submit" name="editar" class="btn btn-primary shadow-sm">
-                    ✏️ Editar Perfil
+                     Editar Perfil
                 </button>
             </form>
         </div>
@@ -98,7 +98,7 @@
     <!-- Enlace a sugerencias -->
     <div class="text-center mt-4">
         <a href="{% url 'mis_sugerencias' %}" class="btn btn-info">
-            💡 Ver mis sugerencias enviadas
+             Ver mis sugerencias enviadas
         </a>
     </div>
 </div>
