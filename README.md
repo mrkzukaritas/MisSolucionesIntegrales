@@ -54,6 +54,14 @@
 **3. Configurar base de datos**
 - python manage.py migrate
 
+**4. Correr aplicación web**
+- python manage.py runserver
+  
+## Página en Render 
+- https://missolucionesintegrales.onrender.com
+
+
+
 ## 🚀 Tecnologías Utilizadas
 
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
