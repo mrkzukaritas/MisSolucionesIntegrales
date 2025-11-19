@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 
-<div class="container mt-5">
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card suggestion-card">
@@ -38,9 +38,7 @@
                             <button type="submit" class="btn btn-main">
                                 <i class="fas fa-paper-plane me-2"></i>Enviar
                             </button>
-                            <a href="{% url 'perfil' %}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left me-2"></i>Volver
-                            </a>
+
                         </div>
 
                         {% if mensaje_exito %}
@@ -58,5 +56,5 @@
             </div>
         </div>
     </div>
-</div>
+
 {% endblock %}
