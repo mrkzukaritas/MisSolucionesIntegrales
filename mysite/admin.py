@@ -1,6 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from .models import Categoria, Producto, carrito, ItemCarrito, Cliente
+from .models import Categoria, Producto, Carrito, ItemCarrito, Cliente
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
@@ -46,7 +46,7 @@ class ItemCarritoInline(admin.TabularInline):
 # ---------------------------
 #   CARRITO
 # ---------------------------
-@admin.register(carrito)
+@admin.register(Carrito)
 class CarritoAdmin(admin.ModelAdmin):
     list_display = ("id", "cliente", "pagado")
     list_filter = ("pagado",)

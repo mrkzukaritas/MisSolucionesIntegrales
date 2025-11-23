@@ -78,7 +78,7 @@ class ItemCarrito(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.producto.nombre}"
-class carrito(models.Model):
+class Carrito(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
     pagado = models.BooleanField(default=False)
 
@@ -98,7 +98,7 @@ class carrito(models.Model):
             self.save()
 
             # Crear un nuevo carrito vacío para seguir comprando
-            carrito.objects.create(cliente=self.cliente)
+            Carrito.objects.create(cliente=self.cliente)
 
     # -----------------------------
     # AGREGAR PRODUCTO

@@ -173,24 +173,39 @@ def logout(request):
     auth_logout(request)
     return redirect('/')
 
-
-@login_required
 def catalogo_view(request):
-    # Validar que haya usuario autenticado
+
+    # Si el usuario no está autenticado → llévalo al login
     if not request.user.is_authenticated:
         return redirect("login")
 
-    # Obtener el cliente — si no existe, evita error
+    # Obtener cliente (sin que cause error si no existe)
     try:
         cliente = Cliente.objects.get(user=request.user)
     except Cliente.DoesNotExist:
-        cliente = None  # evita que se caiga la vista
+        cliente = None
 
     categorias = Categoria.objects.all()
     productos = Producto.objects.all()
 
+    # Procesar botón "Agregar al carrito"
+    if request.method == "POST":
+        producto_id = request.POST.get("producto_id")
+        cantidad = int(request.POST.get("cantidad", 1))
+
+        producto = get_object_or_404(Producto, id=producto_id)
+
+        # Obtener/crear carrito activo
+        carrito, created = Carrito.objects.get_or_create(
+            cliente=cliente,
+            pagado=False
+        )
+
+        carrito.agregar_producto(producto, cantidad)
+
+        return redirect("catalogo")
+
     return render(request, "catalogo.html", {
-        "cliente": cliente,
         "categorias": categorias,
         "productos": productos,
     })
@@ -198,7 +213,7 @@ def catalogo_view(request):
 def carrito_view(request):
     cliente = Cliente.objects.get(user=request.user)
 
-    carrito_activo = carrito.objects.get(cliente=cliente, pagado=False)
+    carrito_activo = Carrito.objects.get(cliente=cliente, pagado=False)
 
     items = carrito_activo.items.all()
 
