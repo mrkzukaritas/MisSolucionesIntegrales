@@ -10,4 +10,6 @@ urlpatterns = [
     path('sugerencias/', views.hacer_sugerencia, name='hacer_sugerencia'),
     path('perfil/sugerencias', views.ver_sugerencias, name='mis_sugerencias'),
     path('admin-panel/sugerencias', views.todas_sugerencias, name='todas_sugerencias'),
+    path('catalogo/', views.catalogo_view, name='catalogo'),
+    path('carrito/', views.carrito_view, name='carrito'),
 ]

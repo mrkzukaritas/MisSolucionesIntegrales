@@ -1,9 +1,9 @@
 import os
 import time
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from .models import Cliente, Sugerencia
+from .models import *
 from .forms import ClienteForm, SugerenciaForm
 from django.core.mail import send_mail
 
@@ -172,3 +172,55 @@ def todas_sugerencias(request):
 def logout(request):
     auth_logout(request)
     return redirect('/')
+
+
+@login_required
+def catalogo_view(request):
+    # Validar que haya usuario autenticado
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    # Obtener el cliente — si no existe, evita error
+    try:
+        cliente = Cliente.objects.get(user=request.user)
+    except Cliente.DoesNotExist:
+        cliente = None  # evita que se caiga la vista
+
+    categorias = Categoria.objects.all()
+    productos = Producto.objects.all()
+
+    return render(request, "catalogo.html", {
+        "cliente": cliente,
+        "categorias": categorias,
+        "productos": productos,
+    })
+@login_required
+def carrito_view(request):
+    cliente = Cliente.objects.get(user=request.user)
+
+    carrito_activo = carrito.objects.get(cliente=cliente, pagado=False)
+
+    items = carrito_activo.items.all()
+
+    # ELIMINAR PRODUCTO
+    if request.method == "POST" and "eliminar_id" in request.POST:
+        producto_id = request.POST.get("eliminar_id")
+        producto = get_object_or_404(Producto, id=producto_id)
+
+        carrito_activo.eliminar_producto(producto)
+
+        return redirect("carrito")
+
+    # PAGAR
+    if request.method == "POST" and "pagar" in request.POST:
+        carrito_activo.pagar()
+        return redirect("carrito")  # esto ya muestra el carrito nuevo vacío
+
+    # CALCULAR TOTAL
+    total = carrito_activo.valor()
+
+    return render(request, "carrito.html", {
+        "carrito": carrito_activo,
+        "items": items,
+        "total": total,
+    })

@@ -72,39 +72,91 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
 class ItemCarrito(models.Model):
-    
-    carrito = models.ForeignKey('carrito', on_delete=models.CASCADE)
+    carrito = models.ForeignKey('carrito', on_delete=models.CASCADE, related_name='items')
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
-class carrito(models.Model):
 
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.nombre}"
+class carrito(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
-    #lista de productos en el carrito
-    productos= models.ManyToManyField(ItemCarrito, through=ItemCarrito)
-    pagado= models.BooleanField(default=False)
+    pagado = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Carrito"
         verbose_name_plural = "Carritos"
-        unique_together = ('cliente', 'producto')
+
+    def __str__(self):
+        return f"Carrito #{self.id} - {self.cliente.user.get_full_name()} - Pagado: {self.pagado}"
+
+    # -----------------------------
+    # PAGAR CARRITO
+    # -----------------------------
     def pagar(self):
-        if self.pagado!= True:
+        if not self.pagado:
             self.pagado = True
-            self.productos.clear()
+            self.save()
 
-        self.save()
+            # Crear un nuevo carrito vacío para seguir comprando
+            carrito.objects.create(cliente=self.cliente)
+
+    # -----------------------------
+    # AGREGAR PRODUCTO
+    # -----------------------------
     def agregar_producto(self, producto, cantidad):
+        # 1. Validar stock
+        if producto.stock < cantidad:
+            return False  # No hay stock
 
-        item, created = ItemCarrito.objects.get_or_create(carrito=self, producto=producto)
-        if not created:
-            item.cantidad += cantidad
-        else:
-            item.cantidad = cantidad
-        item.save()
+        # 2. Crear SIEMPRE un ItemCarrito nuevo
+        item = ItemCarrito.objects.create(
+            carrito=self,
+            producto=producto,
+            cantidad=cantidad
+        )
+
+        # 3. Descontar del stock
+        producto.stock -= cantidad
+        producto.save()
+
+        return True
+    # -----------------------------
+    # ELIMINAR PRODUCTO
+    # -----------------------------
+    def eliminar_producto(self, producto):
+        """
+        Elimina un producto del carrito.
+        - Si existe el ItemCarrito, se borra.
+        - Se devuelve la cantidad al stock del producto.
+        """
+        try:
+            item = ItemCarrito.objects.get(carrito=self, producto=producto)
+        except ItemCarrito.DoesNotExist:
+            return False  # No existía en el carrito
+
+        # Devolver al stock
+        producto.stock += item.cantidad
+        producto.save()
+
+        # Eliminar item del carrito
+        item.delete()
+
+        return True
+    # -----------------------------
+    # BUSCAR PRODUCTO EN EL CARRITO
+    # -----------------------------
     def buscar_producto(self, producto):
         try:
-            return ItemCarrito.objects.get(carrito=self, producto=producto)
-        except ItemCarrito.DoesNotExist:    
+            return ItemCarrito.objects.filter(carrito=self, producto=producto)
+        except ItemCarrito.DoesNotExist:
             return None
-    def __str__(self):
-        return f"{self.cantidad} x {self.producto.nombre} para {self.cliente.user.get_full_name()}"
+    
+    def valor(self):
+        """
+        Retorna la suma total de todos los items del carrito:
+        precio * cantidad
+        """
+        total = 0
+        for item in self.items.all():
+            total += item.producto.precio * item.cantidad
+        return total
