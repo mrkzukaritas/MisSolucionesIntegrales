@@ -2,10 +2,15 @@
 {% load static %}
 
 {% block body %}
+<div class="container mt-5">
 <div class="d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 60vh;">
     <h2 class="fw-bold mb-4">
         Somos una empresa que se encarga de la comercialización de materiales odontológicos
     </h2>
-
+    <img src="{% static 'img/oficina.jpg' %}" alt="foto"
+        class="card-img-top"
+        style="height: 800px; object-fit: cover;"
+        >
+</div>
 </div>
 {% endblock body %}

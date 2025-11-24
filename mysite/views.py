@@ -5,6 +5,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import ClienteForm, SugerenciaForm
+from collections import defaultdict
 
 def index(request):
     return render(request, 'index.html')
@@ -112,31 +113,29 @@ def todas_sugerencias(request):
 def logout(request):
     auth_logout(request)
     return redirect('/')
-
 def catalogo_view(request):
 
-    # Si el usuario no está autenticado → llévalo al login
     if not request.user.is_authenticated:
         return redirect("index")
 
-    # Obtener cliente (sin que cause error si no existe)
+    # Intentar obtener cliente
     try:
         cliente = Cliente.objects.get(user=request.user)
     except Cliente.DoesNotExist:
         cliente = None
 
-    categorias = Categoria.objects.all()
-    productos = Producto.objects.all()
+    # Obtener categorías con sus productos
+    categorias = Categoria.objects.prefetch_related("productos").all()
 
-    # Procesar botón "Agregar al carrito"
+    # Procesar agregar al carrito
     if request.method == "POST":
         producto_id = request.POST.get("producto_id")
         cantidad = int(request.POST.get("cantidad", 1))
 
         producto = get_object_or_404(Producto, id=producto_id)
 
-        # Obtener/crear carrito activo
-        carrito, created = Carrito.objects.get_or_create(
+        # Obtener/crear carrito
+        carrito, _ = Carrito.objects.get_or_create(
             cliente=cliente,
             pagado=False
         )
@@ -147,8 +146,8 @@ def catalogo_view(request):
 
     return render(request, "catalogo.html", {
         "categorias": categorias,
-        "productos": productos,
     })
+
 
 @login_required
 def carrito_view(request):
