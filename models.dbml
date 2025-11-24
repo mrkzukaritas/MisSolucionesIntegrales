@@ -1,0 +1,61 @@
+Table users_user {
+  id integer [pk, increment]
+  password varchar(128)
+  last_login datetime
+  is_superuser bool
+  username varchar(150)
+  first_name varchar(150)
+  last_name varchar(150)
+  email varchar(254)
+  is_staff bool
+  is_active bool
+  date_joined datetime
+}
+
+Table Cliente {
+  id integer [pk, increment]
+  user_id integer [ref: > users_user.id]
+  cedula varchar(20)
+  direccion text
+  telefono varchar(20)
+  rol varchar(20)
+  fecha_creacion datetime
+  fecha_actualizacion datetime
+}
+
+Table Sugerencia {
+  id integer [pk, increment]
+  cliente_id integer [ref: > Cliente.id]
+  contenido text
+  fecha_creacion datetime
+}
+
+Table Categoria {
+  id integer [pk, increment]
+  nombre varchar(100)
+  descripcion text
+}
+
+Table Producto {
+  id integer [pk, increment]
+  nombre varchar(150)
+  codigo varchar(50)
+  descripcion text
+  precio decimal(10,2)
+  stock integer
+  categoria_id integer [ref: > Categoria.id]
+  fecha_creacion datetime
+}
+
+Table Carrito {
+  id integer [pk, increment]
+  cliente_id integer [ref: > Cliente.id]
+  pagado bool
+}
+
+Table ItemCarrito {
+  id integer [pk, increment]
+  carrito_id integer [ref: > Carrito.id]
+  producto_id integer [ref: > Producto.id]
+  cantidad integer
+}

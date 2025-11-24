@@ -34,24 +34,25 @@
                 <!-- Menú -->
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
                         {% if user.is_authenticated %}
-                            <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Mi perfil</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'carrito' %}">Mi carrito</a></li>
                             
+                            <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'carrito' %}">Mi carrito</a></li>
                             {% if user.cliente.rol == 'cliente' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'hacer_sugerencia' %}">Sugerencias</a></li>
                             {% endif %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                            
                             {% if user.cliente.rol == 'admin' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'panel_administrador' %}">Panel de Admin</a></li>
                             {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Mi perfil</a></li>
                         {% else %}
-                            <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+                            
                             <li class="nav-item"><a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Entrar</a></li>
                             
                         {% endif %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
+                            
                     </ul>
                 </div>
             </div>
@@ -69,10 +70,10 @@
     <!-- Footer -->
     <footer class="footer mt-5 py-4 bg-light border-top">
         <div class="container text-center">
-            <h5 class="fw-bold mb-3">📞 Contáctanos</h5>
-            <p>Estamos aquí para ayudarte. No dudes en contactarnos para más información.</p>
-            <p><strong>Email:</strong> info@misitio.com</p>
-            <p><strong>Teléfono:</strong> +57 123 456 7890</p>
+            <h5 class="fw-bold mb-3">Contáctanos</h5>
+            <p>Make It Simple.</p>
+            <p><strong>Email:</strong> mis.solucionesintegrales.sa@gmail.com</p>
+            <p><strong>Teléfono:</strong>+57 300 6100075</p>
             <p class="text-muted small mt-3">© 2025 Mis Soluciones Integrales. Todos los derechos reservados.</p>
         </div>
     </footer>

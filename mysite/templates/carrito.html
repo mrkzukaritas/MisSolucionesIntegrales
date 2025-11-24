@@ -1,67 +1,69 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
+{% block body %}
 <div class="container mt-4">
-    <h1 class="text-center">Mi Carrito</h1>
-    <hr>
 
-    <!-- SI EL CARRITO ESTÁ VACÍO -->
-    {% if not items %}
-        <p class="text-center mt-4">Tu carrito está vacío.</p>
-        <div class="text-center">
-            <a href="{% url 'catalogo' %}" class="btn btn-primary">Volver al catálogo</a>
+    <h2 class="mb-3">🛒 Mi Carrito</h2>
+
+    {% if items %}
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td style="width: 80px;">
+                        <img src="{% static 'img/' %}{{ item.producto.codigo }}.png"
+                             onerror="this.onerror=null; this.src='{% static 'img/no-image.png' %}'"
+                             style="width: 70px; height: 70px; object-fit: cover;">
+                    </td>
+
+                    <td>{{ item.producto.nombre }}</td>
+
+                    <td>{{ item.cantidad }}</td>
+
+                    <td>COP {{ item.producto.precio }}</td>
+
+                    <td>{{ item.producto.precio }} × {{ item.cantidad }}</td>
+
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="eliminar_id" value="{{ item.producto.id }}">
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="mt-4 text-end">
+            <h3>Total: <strong>${{ total }}</strong></h3>
+
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" name="pagar" class="btn btn-success btn-lg mt-2">
+                    💳 Pagar Carrito
+                </button>
+            </form>
         </div>
+
     {% else %}
-
-    <!-- TABLA DE ITEMS -->
-    <table class="table table-bordered mt-4">
-        <thead class="table-dark">
-            <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.producto.nombre }}</td>
-                <td>${{ item.producto.precio }}</td>
-                <td>{{ item.cantidad }}</td>
-                <td>${{ item.producto.precio|floatformat:0|add:""|add:item.cantidad }}</td>
-
-                <!-- Botón eliminar -->
-                <td>
-                    <form method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="eliminar_id" value="{{ item.producto.id }}">
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <!-- TOTAL DEL CARRITO -->
-    <div class="text-end mt-3">
-        <h3>Total: ${{ total }}</h3>
-    </div>
-
-    <!-- BOTÓN PAGAR -->
-    <form method="POST" class="text-end mt-3">
-        {% csrf_token %}
-        <button class="btn btn-success btn-lg" name="pagar">Pagar carrito</button>
-    </form>
-
+        <div class="alert alert-info text-center">
+            Tu carrito está vacío 🛍️
+        </div>
     {% endif %}
 
-    <div class="mt-4">
-        <a href="{% url 'catalogo' %}" class="btn btn-secondary">Seguir comprando</a>
-    </div>
-
 </div>
-{% endblock %}
+{% endblock body %}

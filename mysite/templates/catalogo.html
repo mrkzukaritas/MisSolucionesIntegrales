@@ -10,11 +10,10 @@
     <div class="col-md-4">
         <div class="card shadow-sm h-100">
 
-            {% if producto.imagen %}
-                <img src="{{ producto.imagen.url }}" class="card-img-top" style="height: 220px; object-fit: cover;">
-            {% else %}
-                <img src="{% static 'img/no-image.png' %}" class="card-img-top" style="height: 220px; object-fit: cover;">
-            {% endif %}
+    <img src="{% static 'img/' %}{{ producto.codigo }}.png"
+        class="card-img-top"
+        style="height: 220px; object-fit: cover;"
+        onerror="this.onerror=null; this.src='{% static 'img/no-image.png' %}'">
 
             <div class="card-body">
                 <h5 class="card-title">{{ producto.nombre }}</h5>
@@ -32,13 +31,13 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text">Cantidad</span>
                         <input type="number" name="cantidad" value="1" min="1" max="{{ producto.stock }}"
-                               class="form-control" required>
+                            class="form-control" required>
                     </div>
 
                     {% if producto.stock > 0 %}
                         <button class="btn btn-primary w-100">Agregar al carrito</button>
                     {% else %}
-                        <button class="btn btn-secondary w-100" disabled>Sin stock</button>
+                        <button class="btn btn-secondary w-100" disabled>Agotado</button>
                     {% endif %}
                 </form>
             </div>

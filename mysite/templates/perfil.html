@@ -86,11 +86,16 @@
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary shadow-sm">Guardar</button>
+
                     {% if datos_completos %}
                         <a href="{% url 'perfil' %}" class="btn btn-outline-secondary">Cancelar</a>
                     {% endif %}
+                    
                 </div>
+
+
             </form>
+
         </div>
     </div>
     {% endif %}
@@ -100,6 +105,8 @@
         <a href="{% url 'mis_sugerencias' %}" class="btn btn-info">
              Ver mis sugerencias enviadas
         </a>
+                    <a>                   </a>
+            <a href="{% url 'logout' %}" class="btn btn-danger">Cerrar sesión</a>
     </div>
 </div>
 {% endblock body %}

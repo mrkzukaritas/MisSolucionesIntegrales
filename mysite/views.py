@@ -5,7 +5,6 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import ClienteForm, SugerenciaForm
-from django.core.mail import send_mail
 
 def index(request):
     return render(request, 'index.html')
@@ -61,86 +60,28 @@ def ver_sugerencias(request):
         'sugerencias': sugerencias,
     })
 
-def enviar_email_con_reintentos(asunto, mensaje, email_destino, max_reintentos=3):
-    """Envía email con reintentos automáticos si falla"""
-    print(f"🚀 INICIANDO ENVÍO DE EMAIL a: {email_destino}")
-    
-    for intento in range(max_reintentos):
-        try:
-            print(f"📧 Intento {intento + 1} de {max_reintentos}...")
-            
-            # VERIFICAR CONFIGURACIÓN ANTES DE ENVIAR
-            email_user = os.environ.get('EMAIL_HOST_USER')
-            print(f"🔧 Configuración - EMAIL_HOST_USER: {email_user}")
-            
-            if not email_user:
-                print("❌ ERROR: EMAIL_HOST_USER no está configurado")
-                return False
-                
-            resultado = send_mail(
-                asunto,
-                mensaje,
-                email_user,  # Usar el mismo email como remitente
-                [email_destino],
-                fail_silently=False,
-
-            )
-            
-            print(f"✅ Email enviado EXITOSAMENTE. Resultado: {resultado}")
-            return True
-            
-        except Exception as e:
-            if intento < max_reintentos - 1:
-                time.sleep(2)
-            continue
-
-    return False
-
 @login_required
 def hacer_sugerencia(request):
 
     if request.method == 'POST':
-
         form = SugerenciaForm(request.POST)
 
         if form.is_valid():
             try:
                 sugerencia = form.save(commit=False)
 
-                # VERIFICAR SI EL CLIENTE EXISTE
+                # Obtener cliente
                 cliente = Cliente.objects.get(user=request.user)
 
                 sugerencia.cliente = cliente
                 sugerencia.save()
 
-                asunto = '✅ Sugerencia recibida - Mis Soluciones Integrales'
-                mensaje = f'''Hola {cliente.user.first_name},
-
-Gracias por enviar tu sugerencia. Hemos recibido el siguiente contenido:
-
-"{sugerencia.contenido}"
-
-La revisaremos pronto y te mantendremos informado sobre su estado.
-
-📅 Fecha: {sugerencia.fecha_creacion.strftime("%d/%m/%Y %H:%M")}
-
-Saludos,
-Equipo de Mis Soluciones Integrales'''
-
-                # Enviar correo de confirmación CON REINTENTOS
-                email_enviado = enviar_email_con_reintentos(
-                    asunto, 
-                    mensaje, 
-                    cliente.user.email
-                )
-
-                # Mensaje de éxito
+                # Solo mensaje de éxito, sin correo
                 return render(request, 'sugerencias.html', {
                     'form': SugerenciaForm(),
-                    'mensaje_exito': True,
-                    'email_enviado': email_enviado
+                    'mensaje_exito': True
                 })
-                
+
             except Cliente.DoesNotExist:
                 return render(request, 'sugerencias.html', {
                     'form': form,
@@ -151,16 +92,15 @@ Equipo de Mis Soluciones Integrales'''
                     'form': form,
                     'error': f'Error al procesar la sugerencia: {str(e)}'
                 })
-
     else:
         form = SugerenciaForm()
 
-    
     return render(request, 'sugerencias.html', {
         'form': form,
         'mensaje_exito': False
     })
 
+@login_required
 def todas_sugerencias(request):
     """Vista para que los administradores vean todas las sugerencias"""
     sugerencias = Sugerencia.objects.all().order_by('-fecha_creacion')
@@ -177,7 +117,7 @@ def catalogo_view(request):
 
     # Si el usuario no está autenticado → llévalo al login
     if not request.user.is_authenticated:
-        return redirect("login")
+        return redirect("index")
 
     # Obtener cliente (sin que cause error si no existe)
     try:
@@ -209,15 +149,24 @@ def catalogo_view(request):
         "categorias": categorias,
         "productos": productos,
     })
+
 @login_required
 def carrito_view(request):
-    cliente = Cliente.objects.get(user=request.user)
+    # Obtener cliente
+    cliente = get_object_or_404(Cliente, user=request.user)
 
-    carrito_activo = Carrito.objects.get(cliente=cliente, pagado=False)
+    # Obtener o crear carrito activo
+    carrito_activo, creado = Carrito.objects.get_or_create(
+        cliente=cliente,
+        pagado=False
+    )
 
+    # Items del carrito
     items = carrito_activo.items.all()
 
-    # ELIMINAR PRODUCTO
+    # -----------------------------------
+    # ELIMINAR PRODUCTO DEL CARRITO
+    # -----------------------------------
     if request.method == "POST" and "eliminar_id" in request.POST:
         producto_id = request.POST.get("eliminar_id")
         producto = get_object_or_404(Producto, id=producto_id)
@@ -226,12 +175,14 @@ def carrito_view(request):
 
         return redirect("carrito")
 
-    # PAGAR
+    # -----------------------------------
+    # PAGAR CARRITO
+    # -----------------------------------
     if request.method == "POST" and "pagar" in request.POST:
         carrito_activo.pagar()
-        return redirect("carrito")  # esto ya muestra el carrito nuevo vacío
+        return redirect("carrito")
 
-    # CALCULAR TOTAL
+    # Total del carrito
     total = carrito_activo.valor()
 
     return render(request, "carrito.html", {
